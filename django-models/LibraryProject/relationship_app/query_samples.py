@@ -4,7 +4,8 @@ from .models import Author, Book, Library, Librarian
 
 
 def run_all_samples():
-    print("--- Creating new sample data... ---")
+
+    print("--- sample data... ---")
     author1 = Author.objects.create(name="George Orwell")
     author2 = Author.objects.create(name="J.R.R. Tolkien")
 
@@ -38,5 +39,5 @@ def run_all_samples():
     # Query 3: Retrieve the librarian for a library.
     print("\n--- Query 3: Librarian for City Central Library ---")
     library_for_librarian = Library.objects.get(name="City Central Library")
-    librarian = library_for_librarian.librarian
+    librarian = Librarian.objects.get(library=library_for_librarian)
     print(f"- {librarian.name}")
