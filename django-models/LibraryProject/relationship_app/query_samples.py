@@ -1,36 +1,42 @@
+# In relationship_app/query_samples.py
+
 from .models import Author, Book, Library, Librarian
 
-def run_queries():
-    print("Creating sample data...")
+
+def run_all_samples():
+    print("--- Creating new sample data... ---")
     author1 = Author.objects.create(name="George Orwell")
-    author2 = Author.objects.create(name="Ibn Khaldun")
+    author2 = Author.objects.create(name="J.R.R. Tolkien")
 
     book1 = Book.objects.create(title="1984", author=author1)
     book2 = Book.objects.create(title="Animal Farm", author=author1)
-    book3 = Book.objects.create(title="Al-Mukaddimah", author=author2)
+    book3 = Book.objects.create(title="The Hobbit", author=author2)
 
-    library1 = Library.objects.create(name="Books Hub")
+    library1 = Library.objects.create(name="City Central Library")
     library1.books.add(book1, book3)
 
-    librarian1 = Librarian.objects.create(name="Books keeper", library=library1)
-    print("Sample data created.\n")
+    Librarian.objects.create(name="Alice Smith", library=library1)
+    print("--- Sample data created successfully. ---\n")
 
-    # 1. Query all books by a specific author (George Orwell)
-    print("1. Books by George Orwell:")
-    orwell_books = Book.objects.filter(author__name="George Orwell")
-    for book in orwell_books:
+
+    # Query 1: Query all books by a specific author.
+    print("--- Query 1: Books by George Orwell ---")
+    author_name = "George Orwell"
+    author = Author.objects.get(name=author_name)
+    books_by_author = Book.objects.filter(author=author)
+    for book in books_by_author:
         print(f"- {book.title}")
-    print("-" * 20)
 
-    # 2. List all books in a library
-    print("2. Books in Books Hub:")
-    books_hub = library1.books.all()
-    for book in  books_hub:
+    # Query 2: List all books in a library.
+    print("\n--- Query 2: Books in City Central Library ---")
+    library_name = "City Central Library"
+    library = Library.objects.get(name=library_name)
+    books_in_library = library.books.all()
+    for book in books_in_library:
         print(f"- {book.title}")
-    print("-" * 20)
 
-    # 3. Retrieve the librarian for a library
-    print("3. Librarian for Books Hub:")
-    librarian_name = library1.librarian.name
-    print(f"- {librarian_name}")
-    print("-" * 20)
+    # Query 3: Retrieve the librarian for a library.
+    print("\n--- Query 3: Librarian for City Central Library ---")
+    library_for_librarian = Library.objects.get(name="City Central Library")
+    librarian = library_for_librarian.librarian
+    print(f"- {librarian.name}")
