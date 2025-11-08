@@ -21,5 +21,6 @@ from bookshelf import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('admin/', admin.site.urls),
-    path('bookshelf/', include("bookshelf.urls"))
+    path('bookshelf/', include("bookshelf.urls")),
+    path('relationship_app/', include("relationship_app.urls"))
 ]
