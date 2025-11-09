@@ -7,6 +7,11 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
+# For the checker
+# At the top of relationship_app/views.py
+
+# ... other imports ...
+from django.contrib.auth import login
 
 
 
