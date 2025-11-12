@@ -1,0 +1,31 @@
+<!-- list_books.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Books</title>
+</head>
+<body>
+    <h1>Books Available:</h1>
+    <ul>
+        {% for book in books %}
+        <li>{{ book.title }} by {{ book.author.name }}</li>
+        {% endfor %}
+    </ul>
+    <hr>
+    <!-- We only show this form if the user is actually logged in -->
+    {% if user.is_authenticated %}
+      <p>Hello, {{ user.username }}!</p>
+
+      <!-- This form will send a POST request to the 'logout' URL -->
+      <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+      </form>
+    {% else %}
+      <p>You are not logged in.</p>
+      <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+</body>
+
+</html>
