@@ -1,6 +1,10 @@
+from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from django.shortcuts import render
+from .models import Book
 from django.contrib.auth.decorators import login_required, permission_required
+
+
 
 def home(request):
     return HttpResponse("Welcome to the Library Project homepage!")
@@ -8,6 +12,12 @@ def home(request):
 def books(request):
     return HttpResponse("Welcome to the bookshelf!")
 
+
+@permission_required('bookshelf.can_view', raise_exception=True)
+def book_list(request):
+    all_the_books = Book.objects.all()
+    context = {'books': all_the_books}
+    return render(request, 'bookshelf/book_list.html', context)
 
 
 @permission_required('bookshelf.can_create', raise_exception=True)
