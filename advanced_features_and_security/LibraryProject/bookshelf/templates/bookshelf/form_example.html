@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secure Form Example</title>
+</head>
+<body>
+
+    <h1>This is an example of a secure form.</h1>
+
+    <form action="" method="post">
+
+        <!-- This is the CSRF token. It is required for all POST forms. -->
+        {% csrf_token %}
+
+        <label for="example_input">Example Field:</label>
+        <input type="text" id="example_input" name="example_field">
+
+        <br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>

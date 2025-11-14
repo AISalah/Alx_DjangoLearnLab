@@ -20,13 +20,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-mh$#&g2rl^9)v=odo1#2u0x9x&&k_bz9^5t0x(d!pd$%89=njt'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# --- Core Security Settings ---
 
-ALLOWED_HOSTS = []
+# SECURITY WARNING: don't run with debug turned on in production!
+# When False, Django shows a generic error page instead of a detailed debug page.
+DEBUG = False
+
+
+# Defines the list of allowed hostnames for this site.
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -44,6 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'csp.middleware.CSPMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -120,7 +127,6 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/relationship_app/books/'
@@ -129,3 +135,30 @@ AUTH_USER_MODEL = 'bookshelf.CustomUser'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# --- Browser-Side Security Headers ---
+
+# Your comment for SECURE_BROWSER_XSS_FILTER
+
+# Enables the browser's built-in Cross-Site Scripting (XSS) protection.
+SECURE_BROWSER_XSS_FILTER = True
+
+
+# Prevents the site from being rendered in an <iframe>, which helps
+# protect against "clickjacking" attacks.
+X_FRAME_OPTIONS = 'DENY'
+
+# Prevents the browser from guessing the content type of a file, which can
+# stop attacks where a malicious file is disguised as an image.
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# If True, the CSRF cookie will only be sent over a secure (HTTPS) connection.
+CSRF_COOKIE_SECURE = True
+
+# If True, the user's session cookie will only be sent over a secure (HTTPS) connection.
+SESSION_COOKIE_SECURE = True
+
+# --- Content Security Policy (CSP) ---
+
+# Defines the default security policy for loading content. "'self'" means that
+# by default, content (like scripts and styles) can only be loaded from our own domain.
+CSP_DEFAULT_SRC = ("'self'",)
