@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Book
 from django.contrib.auth.decorators import login_required, permission_required
-
+from .forms import ExampleForm
 
 
 def home(request):
@@ -36,3 +36,8 @@ def delete_book_view(request):
 @permission_required('bookshelf.can_view', raise_exception=True)
 def view_book_view(request):
     return HttpResponse("You only can VIEW books!")
+
+
+def form_example_view(request):
+    form = ExampleForm()
+    return render(request, 'bookshelf/form_example.html', {'form': form})
