@@ -190,3 +190,9 @@ CONTENT_SECURITY_POLICY = {
         'default-src': ("'self'",)
     }
 }
+
+# --- Production Proxy Server Settings ---
+# Tells Django to trust the 'X-Forwarded-Proto' header from a proxy server.
+# This is crucial for SECURE_SSL_REDIRECT to function correctly in a
+# typical production environment where a proxy like Nginx handles SSL.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
