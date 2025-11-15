@@ -177,8 +177,16 @@ SESSION_COOKIE_SECURE = True
 CSP_DEFAULT_SRC = ("'self'",)
 
 
+# --- Content Security Policy (CSP) ---
+# Configures the Content Security Policy to provide a strong defense against
+# Cross-Site Scripting (XSS) and other injection attacks.
 CONTENT_SECURITY_POLICY = {
     'DIRECTIVES': {
+# 'default-src' is the fallback rule for all types of content.
+        # The value "'self'" instructs the browser that, by default, it is only
+        # allowed to load resources (like scripts, styles, and images)
+        # that come from our own domain. This prevents loading malicious
+        # assets from other websites.
         'default-src': ("'self'",)
     }
 }
