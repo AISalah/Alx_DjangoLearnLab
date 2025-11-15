@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-mh$#&g2rl^9)v=odo1#2u0x9x&&k_bz9^5t0x(d!pd$%89=njt
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # When False, Django shows a generic error page instead of a detailed debug page.
-DEBUG = False
+DEBUG = True
 
 
 # Defines the list of allowed hostnames for this site.
@@ -147,6 +147,19 @@ SECURE_BROWSER_XSS_FILTER = True
 # protect against "clickjacking" attacks.
 X_FRAME_OPTIONS = 'DENY'
 
+# Redirecting user's browser to use https:// instead of normal http:// request
+SECURE_SSL_REDIRECT = True
+
+# Tells the browser to remember to only use HTTPS for the next year.
+SECURE_HSTS_SECONDS = 31536000  # 31536000 seconds = 1 year
+
+# Tells the browser that this HSTS rule should also apply to all subdomains.
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+# Allows the site to be submitted to a "preload list" that is built into major browsers,
+# ensuring the very first visit a user ever makes is already secure.
+SECURE_HSTS_PRELOAD = True
+
 # Prevents the browser from guessing the content type of a file, which can
 # stop attacks where a malicious file is disguised as an image.
 SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -162,3 +175,10 @@ SESSION_COOKIE_SECURE = True
 # Defines the default security policy for loading content. "'self'" means that
 # by default, content (like scripts and styles) can only be loaded from our own domain.
 CSP_DEFAULT_SRC = ("'self'",)
+
+
+CONTENT_SECURITY_POLICY = {
+    'DIRECTIVES': {
+        'default-src': ("'self'",)
+    }
+}
