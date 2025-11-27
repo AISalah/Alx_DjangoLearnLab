@@ -24,6 +24,7 @@ This project is a Django REST Framework API for managing a collection of books a
   - **Ordering:** Supports sorting by `title` and `publication_year`.
     - *Example:* `/api/books/?ordering=-publication_year` (Newest first)
 
+
 ### 2. Retrieve a Single Book
 - **URL:** `/api/books/<id>/`
 - **Method:** `GET`
@@ -56,6 +57,32 @@ This project is a Django REST Framework API for managing a collection of books a
 
 ---
 
+## 6.Advanced Features: Filtering, Searching, and Ordering
+
+The `ListView` endpoint (`/api/books/`) supports robust query parameters to refine results.
+
+### 6.1. Filtering
+Filter the list by exact matches for specific fields.
+- **Fields:** `title`, `author`, `publication_year`
+- **Example:** Get books published in 1377:
+  - GET /api/books/?publication_year=1377
+
+**Example:** Get books by Author ID 1:
+    GET /api/books/?author=1
+
+### 6.2. Searching
+Perform a fuzzy text search across book titles and author names.
+- **Fields:** `title`, `author__name`
+- **Example:** Search for "Animal":
+  - GET /api/books/?search=Animal
+
+### 6.3. Ordering
+Sort the results by specific fields. Use a minus sign (`-`) for descending order.
+- **Fields:** `title`, `publication_year`
+- **Example:** Sort by newest books first:
+  - GET /api/books/?ordering=-publication_year
+- **Example:** Sort alphabetically by title:
+  - GET /api/books/?ordering=title
 ## Testing & Usage
 
 To test the API, you can use the built-in Browsable API or tools like Postman/cURL.
