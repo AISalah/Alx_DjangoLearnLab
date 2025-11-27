@@ -26,7 +26,7 @@ class ListView(generics.ListAPIView):
 
 
     # Enable Search and Ordering
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter, rest_framework.DjangoFilterBackend]
 
     search_fields = ['title', 'author__name']
 

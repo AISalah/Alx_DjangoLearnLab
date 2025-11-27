@@ -74,7 +74,13 @@ Filter the list by exact matches for specific fields.
 Perform a fuzzy text search across book titles and author names.
 - **Fields:** `title`, `author__name`
 - **Example:** Search for "Animal":
-  - GET /api/books/?search=Animal
+```bash
+ GET /api/books/?search=Animal
+ ```
+**Example: Search for a book by author**
+```bash
+GET http://127.0.0.1:8000/api/books/?search=Ibnkhaldun
+```
 
 ### 6.3. Ordering
 Sort the results by specific fields. Use a minus sign (`-`) for descending order.
@@ -83,10 +89,34 @@ Sort the results by specific fields. Use a minus sign (`-`) for descending order
   - GET /api/books/?ordering=-publication_year
 - **Example:** Sort alphabetically by title:
   - GET /api/books/?ordering=title
-## Testing & Usage
 
-To test the API, you can use the built-in Browsable API or tools like Postman/cURL.
 
-**Example: Search for a book by author**
+
+
+## Testing
+
+This project uses Django's built-in `unittest` framework combined with DRF's `APITestCase` to ensure API reliability.
+
+### How to Run Tests
+To execute all automated tests, run the following command in your terminal:
 ```bash
-GET http://127.0.0.1:8000/api/books/?search=Ibnkhaldun
+python manage.py test api
+```
+### Test Coverage
+The testing suite (`api/test_views.py`) covers the following scenarios:
+
+- **Authentication & Permissions:**
+  - Verifies that unauthenticated users **cannot** create, update, or delete books (HTTP 403).
+  - Verifies that authenticated users **can** perform these actions (HTTP 201/200/204).
+
+- **CRUD Operations:**
+  - Tests the full lifecycle of a Book object: Create -> Update -> Delete.
+  - Verifies database integrity after each operation.
+
+- **Filtering & Searching:**
+  - **Filtering:** Tests that filtering by `publication_year` returns specific results.
+  - **Searching:** Tests that the search bar correctly identifies books by title.
+
+### Interpreting Results
+- **OK:** All tests passed successfully.
+- **FAILED:** One or more assertions failed. Check the error trace for details.
