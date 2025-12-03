@@ -12,10 +12,25 @@
     <header>
         <nav>
             <ul>
-                <!-- Note: These URLs will fail until we configure urls.py later -->
+                <!-- Everyone sees Home -->
                 <li><a href="{% url 'home' %}">Home</a></li>
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register' %}">Register</a></li>
+
+                {% if user.is_authenticated %}
+                    <!-- LINKS FOR LOGGED IN USERS -->
+                    <li><a href="{% url 'post-create' %}">New Post</a></li>
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+                    <li>
+                        <!-- The Secure Logout Button (Fixes 405 Error) -->
+                        <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" style="background:none; border:none; cursor:pointer; color:blue; font-size:18px;">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <!-- LINKS FOR ANONYMOUS USERS -->
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>

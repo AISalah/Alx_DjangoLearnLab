@@ -48,3 +48,24 @@ This module handles the security and user management for the Django Blog. It all
 2.  **System Action:** The `@login_required` decorator intercepts the request.
 3.  **Result:** User is immediately redirected to the Login page (`/login/?next=/profile/`).
 
+
+## Blog Post Management System
+
+This module enables full CRUD (Create, Read, Update, Delete) functionality for blog posts.
+
+### Features & URLs
+*   **View All Posts:** `/posts/` - Displays a paginated list of all posts (latest first). Content is truncated to 10 words for brevity.
+*   **Read Post:** `/posts/<id>/` - Displays the full content of a single post.
+*   **Create Post:** `/posts/new/` - Shows a form to write a new post.
+*   **Edit Post:** `/posts/<id>/edit/` - Allows authors to modify their existing posts.
+*   **Delete Post:** `/posts/<id>/delete/` - Asks for confirmation before permanently removing a post.
+
+### Permissions & Security
+The system enforces strict access control using Django Mixins:
+1.  **Public Access:** Anyone can view the List and Detail pages.
+2.  **Authenticated Access:** Only logged-in users can access the Create page (`LoginRequiredMixin`).
+3.  **Author-Only Access:** The Edit and Delete pages use `UserPassesTestMixin` to ensure that **only the original author** can modify or delete their post. Attempts by others result in a 403 Forbidden error.
+
+### Technical Implementation
+*   **Automatic Authoring:** The `CreateView` is customized to automatically assign the currently logged-in user as the `author` of the post, removing the need for a manual selection field.
+*   **Pagination:** The post list is configured to paginate results (currently set to 5 posts per page) to optimize performance.
