@@ -1,17 +1,56 @@
 {% extends "blog/base.html" %}
 
 {% block content %}
+    <article class="media content-section">
+        <div class="media-body">
+            <div class="article-metadata">
+                <span class="mr-2">{{ object.author }}</span>
+                <small class="text-muted">{{ object.published_date|date:"F d, Y" }}</small>
 
-        <article class="media content-section">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <!-- Display Author and Date -->
-                    <span class="mr-2">{{ post.author }}</span>
-                    <small class="text-muted">{{ post.published_date|date:"F d, Y" }}</small>
-                </div>
-                <!-- Display Title and Content -->
-                <h2 class="article-title" >{{ object.title }}</h2>
-                <p class="article-content">{{ object.content }}</p>
+                {% if object.author == user %}
+                    <div>
+                        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
+                        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+                    </div>
+                {% endif %}
             </div>
-        </article>
+
+            <!-- Post Content -->
+            <h2 class="article-title">{{ object.title }}</h2>
+            <p class="article-content">{{ object.content }}</p>
+        </div>
+    </article>
+
+    <!-- COMMENT SECTION -->
+    <div class="mt-4">
+        <h3>Comments</h3>
+        <!-- Button to Add New Comment -->
+        <a class="btn btn-primary mb-3" href="{% url 'comment-create' object.id %}">Add Comment</a>
+
+        <!-- List Existing Comments -->
+        {% for comment in object.comments.all %}
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <strong>{{ comment.author }}</strong>
+                            <small class="text-muted">- {{ comment.created_at|date:"F d, Y" }}</small>
+                            <p class="card-text mt-2">{{ comment.content }}</p>
+                        </div>
+
+                        <!-- THE NEW BUTTONS -->
+                        {% if comment.author == user %}
+                            <div>
+                                <a class="btn btn-sm btn-outline-secondary" href="{% url 'comment-update' comment.id %}">Edit</a>
+                                <a class="btn btn-sm btn-outline-danger" href="{% url 'comment-delete' comment.id %}">Delete</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>No comments yet. Be the first to say something!</p>
+        {% endfor %}
+    </div>
+
 {% endblock %}

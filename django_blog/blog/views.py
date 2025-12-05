@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
-from .forms import CustomUserCreationForm, UserUpdateForm, PostForm
+from django.urls import reverse
+from .forms import CustomUserCreationForm, UserUpdateForm, PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Post
+from .models import Post, Comment
 
 
 class PostListView(ListView):
@@ -44,6 +45,43 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+
+    def form_valid(self, form):
+        post = get_object_or_404(Post, pk=self.kwargs['pk'])
+        form.instance.author = self.request.user
+        form.instance.post = post
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('post-detail', kwargs={'pk': self.kwargs['pk']})
+
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Comment
+    form_class = CommentForm
+
+    def test_func(self):
+        comment = self.get_object()
+        return self.request.user == comment.author
+
+    def get_success_url(self):
+        # Go back to the Blog Post (not the comment itself)
+        return reverse('post-detail', kwargs={'pk': self.object.post.pk})
+
+
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment
+
+    def test_func(self):
+        comment = self.get_object()
+        return self.request.user == comment.author
+
+    def get_success_url(self):
+        return reverse('post-detail', kwargs={'pk': self.object.post.pk})
+
 
 
 def register(request):

@@ -69,3 +69,24 @@ The system enforces strict access control using Django Mixins:
 ### Technical Implementation
 *   **Automatic Authoring:** The `CreateView` is customized to automatically assign the currently logged-in user as the `author` of the post, removing the need for a manual selection field.
 *   **Pagination:** The post list is configured to paginate results (currently set to 5 posts per page) to optimize performance.
+
+## Authentication & User Management
+
+The project includes a full user authentication system allowing for secure access control.
+
+### Features
+*   **Registration:** `/register/` - Users can create an account using a custom form that includes email validation.
+*   **Login:** `/login/` - Standard Django login view.
+*   **Logout:** `/logout/` - Secure logout (POST request required) to protect against CSRF attacks.
+*   **Profile:** `/profile/` - Authenticated users can update their username, email, and upload a profile picture.
+
+### Security Implementation
+*   **Passwords:** Stored using PBKDF2 password hashing (standard Django security).
+*   **Access Control:** 
+    *   `LoginRequiredMixin` is used on Create/Update/Delete views to prevent anonymous access.
+    *   `UserPassesTestMixin` ensures users can only edit/delete their *own* content.
+
+### Testing Instructions
+1.  **Register:** Create a new user at `/register/`. You should be redirected to the home page.
+2.  **Login/Logout:** Test the Login and Logout links in the navigation bar.
+3.  **Profile:** Navigate to `/profile/` to upload a custom avatar and verify it displays correctly.

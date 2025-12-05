@@ -3,15 +3,15 @@
 {% block title %}Profile - Django Blog{% endblock %}
 
 {% block content %}
-    <div class="content-section">
+<div class="content-section" xmlns="http://www.w3.org/1999/html">
         <div class="media">
             <div class="media-body">
+                <img src="{{ user.profile.image.url }}" class="profile-pic" alt="Profile Picture">
                 <h2 class="account-heading">{{ user.username }}</h2>
                 <p class="text-secondary">{{ user.email }}</p>
             </div>
         </div>
 
-        <!-- The Update Form -->
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
