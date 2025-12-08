@@ -90,3 +90,21 @@ The project includes a full user authentication system allowing for secure acces
 1.  **Register:** Create a new user at `/register/`. You should be redirected to the home page.
 2.  **Login/Logout:** Test the Login and Logout links in the navigation bar.
 3.  **Profile:** Navigate to `/profile/` to upload a custom avatar and verify it displays correctly.
+
+## Tagging & Search Functionality
+
+To improve content discoverability, the blog includes a robust tagging and search engine.
+
+### How to use Tags
+*   **Adding Tags:** When creating or editing a post, authors can enter tags in the "Tags" field.
+    *   **Format:** Tags should be separated by commas (e.g., `Python, Web Development, Tutorial`).
+    *   **Logic:** The system automatically checks if a tag exists. If yes, it links it; if no, it creates a new tag in the database.
+*   **Filtering:** Clicking on any tag badge (e.g., `[Django]`) on a post will take the user to a filtered view showing only posts associated with that tag.
+
+### Search Engine
+*   **Location:** A search bar is available in the top navigation menu on every page.
+*   **Scope:** The search query checks three areas:
+    1.  Post Title
+    2.  Post Content
+    3.  Associated Tag Names
+*   **Logic:** The search is **case-insensitive** (e.g., searching for "python" will find "Python"). It uses partial matching, so "code" will find "coding".

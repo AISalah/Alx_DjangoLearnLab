@@ -5,14 +5,23 @@ from .forms import CustomUserCreationForm, UserUpdateForm, PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Post, Comment
-
+from .models import Post, Comment, Tag
+from django.db.models import Q
 
 class PostListView(ListView):
     model = Post
     template_name = 'blog/post_list.html'
     context_object_name = 'posts'
     ordering = ['-published_date']
+
+class TagPostListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        tag = get_object_or_404(Tag, name=self.kwargs.get('tag_name'))
+        return Post.objects.filter(tags=tag).order_by('-published_date')
 
 class PostDetailView(DetailView):
     model = Post
@@ -111,3 +120,15 @@ def profile(request):
 
     return render(request, 'blog/profile.html', {'form': form})
 
+def search(request):
+    query = request.GET.get('q')
+    if query:
+        results = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct()
+    else:
+        results = []
+
+    return render(request, 'blog/search_results.html', {'results': results, 'query': query})

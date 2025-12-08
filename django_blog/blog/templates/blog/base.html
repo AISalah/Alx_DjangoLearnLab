@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Django Blog{% endblock %}</title>
     <!-- FIX 2 & 3: Updated path and filename -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'scss/style.css' %}">
 </head>
 <body>
     <header>
@@ -24,6 +24,12 @@
                         <form action="{% url 'logout' %}" method="post" style="display:inline;">
                             {% csrf_token %}
                             <button type="submit" style="background:none; border:none; cursor:pointer; color:blue; font-size:18px;">Logout</button>
+                        </form>
+                    </li>
+                    <li>
+                        <form class="form-inline ml-auto" action="{% url 'search' %}" method="get">
+                            <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search..." aria-label="Search">
+                            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
                         </form>
                     </li>
                 {% else %}

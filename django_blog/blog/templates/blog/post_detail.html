@@ -15,6 +15,11 @@
                 {% endif %}
             </div>
 
+            <div class="mb-2">
+                {% for tag in object.tags.all %}
+                    <a class="badge badge-secondary" href="{% url 'tag-posts' tag.name %}">{{ tag.name }}</a>
+                {% endfor %}
+            </div>
             <!-- Post Content -->
             <h2 class="article-title">{{ object.title }}</h2>
             <p class="article-content">{{ object.content }}</p>
