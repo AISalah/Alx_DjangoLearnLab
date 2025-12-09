@@ -20,7 +20,7 @@ class RegisterUserView(generics.CreateAPIView):
         user = serializer.save()
 
         # Get token
-        token, created = Token.objects.get_or_create(user=user)
+        token = Token.objects.get(user=user)
 
         # Return response
         return Response({
