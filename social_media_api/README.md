@@ -105,3 +105,62 @@ View or update the logged-in user's details.
 - **Headers Required:**
   - Key: `Authorization`
   - Value: `Token <your_token_string>`
+
+
+## Content Management (Posts & Comments)
+
+The API supports full CRUD operations for Posts and Comments.
+**Note:** All write operations (Create, Update, Delete) require the `Authorization: Token <token>` header.
+
+### 1. Posts
+
+#### List & Search Posts
+- **Endpoint:** `GET /posts/`
+- **Filtering:** Use `?search=` to find posts by title or content.
+- **Pagination:** Returns 10 results per page.
+- **Example URL:** `http://127.0.0.1:8000/api/posts/?search=API&page=1`
+- **Response:**
+  ```json
+  {
+      "count": 5,
+      "next": "http://.../page=2",
+      "results": [
+          {
+              "id": 1,
+              "author": "testuser",
+              "title": "My First Post",
+              "content": "Salam!",
+              "created_at": "2023-10-27T10:00:00Z"
+          }
+      ]
+  }
+
+#### Create a Post
+- **Endpoint:** `POST /posts/`
+- **Body:**
+  ```json
+  {
+      "title": "New Feature",
+      "content": "We just added filtering!"
+  }
+  ```
+
+#### Edit/Delete a Post
+- **Endpoint:** `PUT /posts/{id}/` or `DELETE /posts/{id}/`
+- **Permission:** Only the **author** of the post can perform these actions.
+
+### 2. Comments
+
+#### Create a Comment
+- **Endpoint:** `POST /comments/`
+- **Body:**
+  ```json
+  {
+      "post": 1,
+      "content": "Great post!"
+  }
+  ```
+
+#### List Comments
+- **Endpoint:** `GET /comments/`
+- **Response:** Lists all comments ordered by newest first.
