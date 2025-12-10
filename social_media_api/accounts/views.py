@@ -44,7 +44,7 @@ class FollowUserView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
 
-    def post(self, request, pk):
+    def post(self, request, user_id):
         user_to_follow = get_object_or_404(CustomUser, pk=user_id)
 
         # Logic: Add the target user to my following list
@@ -59,7 +59,7 @@ class UnfollowUserView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = CustomUser.objects.all()
 
-    def post(self, request, pk):
+    def post(self, request, user_id):
         user_to_unfollow = get_object_or_404(CustomUser, pk=user_id)
 
         # Logic: Remove the target user from my following list
