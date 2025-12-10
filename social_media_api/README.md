@@ -47,7 +47,7 @@ A robust RESTful API built with Django and Django REST Framework, featuring cust
    python manage.py runserver
    ```
 
----
+
 
 ## 👤 User Model Architecture
 
@@ -58,7 +58,7 @@ The project uses a **Custom User Model** (`accounts.CustomUser`) that extends Dj
 - `profile_picture` (Image): Upload path: `/profile_pictures/`.
 - `followers` (ManyToMany): A non-symmetrical relationship to other users.
 
----
+
 
 ## Authentication & Endpoints
 
@@ -90,13 +90,13 @@ Obtain an authentication token for an existing user.
       "username": "johndoe",
       "password": "StrongPassword123!"
   }
-  ```
+
 - **Response:**
   ```json
   {
       "token": "9dc29e561c6ab68d1b7d104e663381f372afed58"
   }
-  ```
+
 
 ### 3. User Profile
 View or update the logged-in user's details.
@@ -141,9 +141,9 @@ The API supports full CRUD operations for Posts and Comments.
   ```json
   {
       "title": "New Feature",
-      "content": "We just added filtering!"
+      "content": "just added filtering!"
   }
-  ```
+
 
 #### Edit/Delete a Post
 - **Endpoint:** `PUT /posts/{id}/` or `DELETE /posts/{id}/`
@@ -159,8 +159,59 @@ The API supports full CRUD operations for Posts and Comments.
       "post": 1,
       "content": "Great post!"
   }
-  ```
+
 
 #### List Comments
 - **Endpoint:** `GET /comments/`
 - **Response:** Lists all comments ordered by newest first.
+
+### Task: Update `README.md`
+Open your file and append this new section at the bottom (or integrate it into the existing sections).
+
+##  Social Features & Feed
+
+### User Model Updates
+The `CustomUser` model has been updated to support relationships:
+- **`following`**: A Many-to-Many field (symmetrical=False) allowing users to follow others.
+
+### Endpoints
+
+#### 1. Follow a User
+Start following a specific user.
+- **Endpoint:** `POST /follow/<id>/`
+- **Headers:** `Authorization: Token <your_token>`
+- **Response:**
+  ```json
+  {
+      "message": "You are now following testuser2"
+  }
+
+#### 2. Unfollow a User
+Stop following a specific user.
+- **Endpoint:** `POST /unfollow/<id>/`
+- **Headers:** `Authorization: Token <your_token>`
+- **Response:**
+  ```json
+  {
+      "message": "You have unfollowed testuser2"
+  }
+
+
+#### 3. User Feed
+Retrieves a paginated list of posts *only* from authors the user follows.
+- **Endpoint:** `GET /feed/`
+- **Headers:** `Authorization: Token <your_token>`
+- **Response:**
+  ```json
+  {
+      "count": 5,
+      "results": [
+          {
+              "id": 2,
+              "author": "StarUser",
+              "title": "Star Life",
+              "content": "This post should appear in the feed!",
+              ...
+          }
+      ]
+  }
