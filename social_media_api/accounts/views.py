@@ -5,9 +5,10 @@ from django.contrib.auth import get_user_model
 from .serializers import UserSerializer
 from rest_framework.views import APIView
 from django.shortcuts import get_object_or_404
+from  .models import CustomUser
 
 
-User = get_user_model()
+# User = get_user_model()
 
 
 class RegisterUserView(generics.CreateAPIView):
@@ -41,10 +42,10 @@ class UserProfileView(generics.RetrieveUpdateAPIView):
 
 class FollowUserView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
 
     def post(self, request, pk):
-        user_to_follow = get_object_or_404(User, pk=pk)
+        user_to_follow = get_object_or_404(CustomUser, pk=pk)
 
         # Logic: Add the target user to my following list
         if user_to_follow == request.user:
@@ -56,10 +57,10 @@ class FollowUserView(generics.CreateAPIView):
 
 class UnfollowUserView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
 
     def post(self, request, pk):
-        user_to_unfollow = get_object_or_404(User, pk=pk)
+        user_to_unfollow = get_object_or_404(CustomUser, pk=pk)
 
         # Logic: Remove the target user from my following list
         request.user.following.remove(user_to_unfollow)
