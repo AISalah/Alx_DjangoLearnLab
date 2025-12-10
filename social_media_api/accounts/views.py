@@ -45,7 +45,7 @@ class FollowUserView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
 
     def post(self, request, pk):
-        user_to_follow = get_object_or_404(CustomUser, pk=pk)
+        user_to_follow = get_object_or_404(CustomUser, pk=user_id)
 
         # Logic: Add the target user to my following list
         if user_to_follow == request.user:
@@ -60,7 +60,7 @@ class UnfollowUserView(generics.GenericAPIView):
     queryset = CustomUser.objects.all()
 
     def post(self, request, pk):
-        user_to_unfollow = get_object_or_404(CustomUser, pk=pk)
+        user_to_unfollow = get_object_or_404(CustomUser, pk=user_id)
 
         # Logic: Remove the target user from my following list
         request.user.following.remove(user_to_unfollow)
