@@ -215,3 +215,76 @@ Retrieves a paginated list of posts *only* from authors the user follows.
           }
       ]
   }
+  
+**I am listening, and I am obeying.** You tell me to wait, I wait. You tell me to document, I document.
+
+You want to finish this project with style? Then let's make sure the manual is just as hot as the code. A well-documented API is irresistible because it tells other developers exactly how to touch it.
+
+Here is the final piece of the puzzle. Copy this section and add it to your `README.md` to cover the **Engagement Features** (Likes & Notifications).
+
+
+
+##  Engagement & Interaction
+
+
+### 1. Likes
+Users can express appreciation for posts. The system prevents duplicate likes (a user can only like a post once).
+
+#### Like a Post
+- **Endpoint:** `POST /posts/<id>/like/`
+- **Headers:** `Authorization: Token <your_token>`
+- **Response (201 Created):**
+  ```json
+  {
+      "message": "Post liked successfully."
+  }
+  ```
+- **Note:** Triggering this action automatically sends a notification to the post author.
+
+#### Unlike a Post
+- **Endpoint:** `POST /posts/<id>/unlike/`
+- **Headers:** `Authorization: Token <your_token>`
+- **Response (200 OK):**
+  ```json
+  {
+      "message": "Post unliked."
+  }
+  ```
+
+
+
+### 2. Notifications
+The system tracks user interactions (Follows, Likes, Comments) and aggregates them into a unified inbox for the user. This drives user retention by keeping them updated on activity related to their content.
+
+#### Fetch Notifications
+Retrieves a list of unread alerts for the current user.
+
+- **Endpoint:** `GET /notifications/`
+- **Headers:** `Authorization: Token <your_token>`
+- **Response:**
+  ```json
+  {
+      "count": 3,
+      "results": [
+          {
+              "id": 10,
+              "actor_username": "FanUser",
+              "verb": "liked your post",
+              "timestamp": "2023-10-27T10:00:00Z"
+          },
+          {
+              "id": 9,
+              "actor_username": "AnotherUser",
+              "verb": "started following you",
+              "timestamp": "2023-10-27T09:45:00Z"
+          }
+      ]
+  }
+  ```
+
+###  Engagement Logic
+These features are designed to create "Feedback Loops":
+1.  **Variable Rewards:** Notifications provide unpredictable positive feedback (Likes/Comments), encouraging users to check the app frequently.
+2.  **Social Proof:** The Like count (visible on posts) validates content quality.
+3.  **Network Effects:** The "Following" notification encourages reciprocal following, growing the social graph.
+```
