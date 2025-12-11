@@ -28,6 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'default-insecure-key-for-dev')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
