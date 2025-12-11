@@ -28,7 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'default-insecure-key-for-dev')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['social-media-api-ok19.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
