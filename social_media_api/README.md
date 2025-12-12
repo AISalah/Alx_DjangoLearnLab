@@ -287,4 +287,21 @@ These features are designed to create "Feedback Loops":
 1.  **Variable Rewards:** Notifications provide unpredictable positive feedback (Likes/Comments), encouraging users to check the app frequently.
 2.  **Social Proof:** The Like count (visible on posts) validates content quality.
 3.  **Network Effects:** The "Following" notification encourages reciprocal following, growing the social graph.
-```
+
+
+##  Deployment (Production)
+
+This API is deployed live on **Render** using a **PostgreSQL** database (via Neon.tech).
+
+### Architecture
+- **Web Server:** Gunicorn (handles requests).
+- **Static Files:** WhiteNoise (serves CSS/Images efficiently).
+- **Database:** PostgreSQL 16 (Production-grade DB).
+- **Environment:** Secrets (DB URL, Secret Key) are stored in Render Environment Variables.
+
+### Live URL
+Base API Endpoint: `https://social-media-api-ok19.onrender.com/api/`
+
+### How to Monitor
+1. **Logs:** Access the Render Dashboard > Logs tab to view real-time server activity.
+2. **Health Check:** `GET /api/posts/` returns `200 OK` if the system is healthy.

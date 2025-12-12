@@ -166,3 +166,13 @@ LOGGING = {
         'level': 'INFO',
     },
 }
+
+DEBUG = False
+
+# Security settings
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = True  # Redirects http to https
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
