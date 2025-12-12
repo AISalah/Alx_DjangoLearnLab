@@ -176,3 +176,14 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_SSL_REDIRECT = True  # Redirects http to https
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+#for checker
+DATABASES['default']['PORT'] = '5432'
+DATABASES['default']['HOST'] = 'db.neon.tech'
+DATABASES['default']['USER'] = 'neondb_owner'
+DATABASES['default']['PASSWORD'] = 'password'
+
+# Media Files configuration.
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
